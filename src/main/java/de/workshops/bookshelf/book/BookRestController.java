@@ -46,6 +46,12 @@ public class BookRestController {
         return book.getAuthor().contains(author);
     }
 
+    @PostMapping("/search")
+    public List<Book> searchBooks(@RequestBody BookSearchRequest request) {
+        return this.books.stream().filter(book -> hasAuthor(book, request.getAuthor()) || hasIsbn(book, request.getIsbn())).toList();
+
+    }
+
     @PostConstruct
     public void init() throws Exception {
         final var resource = resourceLoader.getResource("classpath:books.json");
