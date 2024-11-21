@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,10 +55,21 @@ public class BookRestController {
 
     }
 
+    @GetMapping("/error")
+    public Object error() throws BookException {
+        throw  new BookException();
+    }
+
+
     @PostConstruct
     public void init() throws Exception {
         final var resource = resourceLoader.getResource("classpath:books.json");
         this.books = mapper.readValue(resource.getInputStream(), new TypeReference<>() {});
+    }
+
+    @ExceptionHandler(BookException.class)
+    public ResponseEntity error (BookException e) {
+        return new ResponseEntity("Ich bin ein Fehler", HttpStatus.I_AM_A_TEAPOT);
     }
 
     // Map a method returning books to HTTP GET requests for this controller's URL.
