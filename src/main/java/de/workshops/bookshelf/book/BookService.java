@@ -39,4 +39,8 @@ public class BookService {
         return this.bookRepository.getAllBooks().stream().filter(book -> hasAuthor(book, author) || hasIsbn(book,isbn)).toList();
 
     }
+
+    public Book createBook(Book book) {
+        return null;
+    }
 }

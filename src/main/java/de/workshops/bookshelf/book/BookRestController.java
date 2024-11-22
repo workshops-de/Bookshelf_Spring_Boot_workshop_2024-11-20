@@ -22,6 +22,11 @@ public class BookRestController {
         return bookService.allBooks();
     }
 
+    @PostMapping
+    public Book addBook(@RequestBody Book book) {
+        return bookService.createBook(book);
+    }
+
     @GetMapping("{isbn}")
     public Book getBookByIsdn(@PathVariable String isbn) {
         return bookService.findBookByIsbn(isbn);
