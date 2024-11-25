@@ -1,6 +1,7 @@
 application:
   title: '@project.name@'
   version: '@project.version@'
+
 ---
 spring:
   config:
@@ -9,3 +10,7 @@ spring:
         - prod
 server:
   port: 8090
+
+springdoc:
+  api-docs:
+    enabled: false
