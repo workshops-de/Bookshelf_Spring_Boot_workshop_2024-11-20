@@ -2,3 +2,6 @@ application:
   title: '@project.name@'
   version: '@project.version@'
 
+book:
+  name: "Sandra Parsick"
+  age: "42"
