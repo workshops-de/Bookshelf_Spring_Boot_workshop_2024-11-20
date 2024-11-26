@@ -7,10 +7,6 @@ public class BookServiceStub extends BookService {
         super (null);
     }
 
-    public BookServiceStub(BookRepository bookRepository) {
-        super(bookRepository);
-    }
-
     @Override
     public List<Book> allBooks() {
         return List.of(new Book(), new Book(), new Book());

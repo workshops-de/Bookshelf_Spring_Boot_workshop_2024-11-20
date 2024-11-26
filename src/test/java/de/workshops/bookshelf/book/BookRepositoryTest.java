@@ -16,9 +16,16 @@ public class BookRepositoryTest {
 
     @Test
     void selectAllBooks() {
-        List<Book> allBooks = bookRepositoryUnderTest.getAllBooks();
+        List<Book> allBooks = bookRepositoryUnderTest.findAll();
 
         assertThat(allBooks).hasSize(3);
+    }
+
+    @Test
+    void findBookByTitle() {
+        var book = bookRepositoryUnderTest.findByTitle("Clean Code");
+
+        assertThat(book.getTitle()).isEqualTo("Clean Code");
     }
 
 }

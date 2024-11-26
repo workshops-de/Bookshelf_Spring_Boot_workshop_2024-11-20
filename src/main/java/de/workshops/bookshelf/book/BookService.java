@@ -15,11 +15,11 @@ public class BookService {
 
 
     public List<Book> allBooks() {
-        return bookRepository.getAllBooks();
+        return bookRepository.findAll();
     }
 
     public Book findBookByIsbn(String isbn) {
-        return this.bookRepository.getAllBooks().stream().filter(book -> hasIsbn(book, isbn)).findFirst().orElseThrow();
+        return this.bookRepository.findAll().stream().filter(book -> hasIsbn(book, isbn)).findFirst().orElseThrow();
     }
 
     private boolean hasIsbn(Book book, String isbn) {
@@ -27,7 +27,7 @@ public class BookService {
     }
 
     public Book findBookByAuthor(String author) {
-        return this.bookRepository.getAllBooks().stream().filter(book -> hasAuthor(book, author)).findFirst().orElseThrow();
+        return this.bookRepository.findAll().stream().filter(book -> hasAuthor(book, author)).findFirst().orElseThrow();
 
     }
 
@@ -36,11 +36,11 @@ public class BookService {
     }
 
     public List<Book> findBooksByAuthorOrIsbn(String author, String isbn) {
-        return this.bookRepository.getAllBooks().stream().filter(book -> hasAuthor(book, author) || hasIsbn(book,isbn)).toList();
+        return this.bookRepository.findAll().stream().filter(book -> hasAuthor(book, author) || hasIsbn(book,isbn)).toList();
 
     }
 
     public Book createBook(Book book) {
-        return null;
+        return bookRepository.save(book);
     }
 }
