@@ -1,9 +1,8 @@
 package de.workshops.bookshelf.book;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,24 +10,24 @@ import java.util.List;
 @Repository
 public class BookRepository {
 
-    private final ObjectMapper mapper;
 
-    private final ResourceLoader resourceLoader;
+    private final JdbcTemplate jdbcTemplate;
 
-    private List<Book> books;
-
-    public BookRepository(ObjectMapper mapper, ResourceLoader resourceLoader) {
-        this.mapper = mapper;
-        this.resourceLoader = resourceLoader;
+    public BookRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<Book> getAllBooks() {
-        return books;
+        String sql = "SELECT * FROM book";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Book.class));
+    }
+
+    public void saveBook(Book book) {
+        String sql = "INSERT INTO book (title, description, author, isbn) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, book.getTitle(), book.getDescription(), book.getAuthor(), book.getIsbn());
     }
 
     @PostConstruct
     public void init() throws Exception {
-        final var resource = resourceLoader.getResource("classpath:books.json");
-        this.books = mapper.readValue(resource.getInputStream(), new TypeReference<>() {});
     }
 }
