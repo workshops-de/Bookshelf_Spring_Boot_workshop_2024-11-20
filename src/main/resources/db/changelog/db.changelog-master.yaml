@@ -77,3 +77,20 @@ databaseChangeLog:
       rollback:
         - sql:
             sql: DELETE FROM bookshelf_user;
+  - changeSet:
+      id: updateDefaultAdmin
+      author: workshops
+      changes:
+        - sql:
+            sql: >
+              UPDATE bookshelf_user SET password = '$2a$10$ViGhl90eh7U2hgXwFWBnRep5KHxPERlS9KSCEeYLnrYzgmQ129lNe'
+              WHERE username = 'dbUser';
+              UPDATE bookshelf_user SET password = '$2a$10$K8DSqlk/boNuooM6KTnQ6.anSsqheuYcs722.eZJ9pTgcFKuk8Ruu'
+              WHERE username = 'dbAdmin';
+      rollback:
+        - sql:
+            sql: >
+              UPDATE bookshelf_user SET password = 'password'
+              WHERE username = 'dbUser';
+              UPDATE bookshelf_user SET password = 'admin'
+              WHERE username = 'dbAdmin';
